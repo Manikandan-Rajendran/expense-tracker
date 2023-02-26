@@ -1,8 +1,10 @@
 import "./App.css";
 import Expenses from "./components/Expense/Expenses";
+import NewExpense from "./components/Expense/NewExpense";
+import { useState } from "react";
 
 function App() {
-  const expenses = [
+  const DEFAULT_EXPENSE = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -24,8 +26,18 @@ function App() {
     },
   ];
 
+  const [expenses, setExpenses] = useState(DEFAULT_EXPENSE);
+
+  const onSubmitHandle = (expense) => {
+    setExpenses((prevStates) => {
+      expense["id"] = "e".concat((prevStates.length + 1).toString());
+      return [expense, ...prevStates];
+    });
+  };
+
   return (
     <div className="App">
+      <NewExpense onSubmitHandler={onSubmitHandle} title="" amount="" date="" />
       <Expenses items={expenses} />
     </div>
   );
